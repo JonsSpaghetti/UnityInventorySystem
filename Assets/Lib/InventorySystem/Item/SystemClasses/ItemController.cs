@@ -12,13 +12,13 @@ public class ItemController : MonoBehaviour, IPointerClickHandler
     public Sprite myIcon;
     public string myName;
     public ItemData myItem;
-    public int slotIndex;
 
     private static GameObject selectedItem;
     public static bool isDragging = false;
 
     private float slotSize;
     Image myImage;
+    Vector2Int gridPos;
 
     private void Awake()
     {
@@ -42,14 +42,17 @@ public class ItemController : MonoBehaviour, IPointerClickHandler
         canvas.blocksRaycasts = false;
         canvas.alpha = 0.5f;
         isDragging = true;
-        SetSelectedItem(gameObject);
+        
+
+        SetSelectedItem(eventData.pointerCurrentRaycast.gameObject);
     }
 
     private void Update()
     {
         if (isDragging)
         {
-            transform.position = Input.mousePosition;
+            // Have to be very specific to use selectedItem, otherwise since the isDragging var is static, it will get ALL items on screen
+            selectedItem.transform.position = Input.mousePosition;
         }
     }
 

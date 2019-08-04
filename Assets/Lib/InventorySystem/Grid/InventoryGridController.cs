@@ -69,15 +69,30 @@ public class InventoryGridController : MonoBehaviour
 
     void StoreItem(GameObject item)
     {
-        GameObject storedItem = highlightedSlot.GetComponent<SlotController>().InsertItem(item);
+
+        SlotController highlightedSlotController = highlightedSlot.GetComponent<SlotController>();
+        // Insert stored Item into highlighted slot.
+        GameObject storedItem = highlightedSlotController.InsertItem(item);
+
+        // Set parent to drop parent and lock to slot position.
         storedItem.transform.SetParent(dropParent);
         storedItem.GetComponent<RectTransform>().pivot = Vector2.zero;
         storedItem.transform.position = highlightedSlot.transform.position;
+
+        // Make icon solid again.
         CanvasGroup canvasGroup = storedItem.GetComponent<CanvasGroup>();
         canvasGroup.alpha = 1f;
+
+        // Add item to inventoryData
+        inventoryData.AddItem(highlightedSlotController.gridPos, storedItem);
         // TODO - Update Overlay as well.
     }
 
+    /// <summary>
+    /// Swap out an item in the highlighted slot and return the item that we're swapping for to be put on the pointer.
+    /// </summary>
+    /// <param name="item">Item to put into the inventory</param>
+    /// <returns>Item to put on mouse pointer</returns>
     GameObject SwapItem(GameObject item)
     {
         GameObject itemToReturn = GetItem(highlightedSlot);
@@ -97,10 +112,14 @@ public class InventoryGridController : MonoBehaviour
         itemToReturn.GetComponent<RectTransform>().pivot = new Vector2(0.5f, 0.5f);
         itemToReturn.GetComponent<CanvasGroup>().alpha = 0.5f;
         itemToReturn.transform.position = Input.mousePosition;
+        inventoryData.RemoveItem(slotController.gridPos);
         // TODO - Update Overlay
         return itemToReturn;
     }
 
+    /// <summary>
+    /// Update the color of the highlighted slot
+    /// </summary>
     void UpdateHighlightedSlotColor()
     {
         if (!highlightedSlot)

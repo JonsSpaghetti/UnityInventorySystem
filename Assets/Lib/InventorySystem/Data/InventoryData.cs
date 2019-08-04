@@ -9,8 +9,9 @@ public class InventoryData : MonoBehaviour
 {
     public Entity playerCharacter;
     public InventoryGridController gridController;
+    public List<GameObject> debugInventoryList = new List<GameObject>();
 
-    private Dictionary<ItemType, GameObject> items = new Dictionary<ItemType, GameObject>();
+    private Dictionary<Vector2Int, GameObject> items = new Dictionary<Vector2Int, GameObject>();
     //List of requirements
     /* TODO 
      * 1. hold items
@@ -47,9 +48,18 @@ public class InventoryData : MonoBehaviour
     {
     }
 
-    public void AddItem(GameObject item)
+    public void AddItem(Vector2Int gridPos, GameObject item)
     {
-        ItemType type = item.GetComponent<ItemData>().itemType;
-        items[type] = item; 
+        items[gridPos] = item;
+
+        //Debug only
+        debugInventoryList.Add(item);
+    }
+
+    public void RemoveItem(Vector2Int gridPos)
+    {
+        var remove = items[gridPos];
+        items.Remove(gridPos);
+        debugInventoryList.Remove(remove);
     }
 }

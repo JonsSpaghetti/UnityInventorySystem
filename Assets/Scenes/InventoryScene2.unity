@@ -429,6 +429,7 @@ GameObject:
   - component: {fileID: 1053685221}
   - component: {fileID: 1053685223}
   - component: {fileID: 1053685224}
+  - component: {fileID: 1053685225}
   m_Layer: 5
   m_Name: InventoryGrid
   m_TagString: Untagged
@@ -522,7 +523,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dropParent: {fileID: 1760723782}
-  inventoryData: {fileID: 0}
+  inventoryData: {fileID: 1053685225}
+--- !u!114 &1053685225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1053685219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bb0fe8bf41a84340af2266ab20ef9f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCharacter: {fileID: 0}
+  gridController: {fileID: 1053685224}
 --- !u!1 &1223327064
 GameObject:
   m_ObjectHideFlags: 0

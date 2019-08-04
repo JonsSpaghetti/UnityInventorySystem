@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c2f778ad550c7a46bfc3320bd07a250, type: 3}
-  m_Name: Health pot
+  m_Name: Mana pot
   m_EditorClassIdentifier: 
-  myName: Health Potion
-  myInventoryIcon: {fileID: 21300000, guid: 6c633990f51bd2345a42f51e0c968455, type: 3}
+  myName: Mana Potion
+  myInventoryIcon: {fileID: 21300000, guid: 2cf505ae126aa494ca48fd8b3b19ff08, type: 3}
   myWorldSprite: {fileID: 0}
   itemRarity: 0
   itemType: 0
