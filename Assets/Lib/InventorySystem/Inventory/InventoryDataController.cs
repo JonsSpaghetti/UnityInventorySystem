@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class InventoryData : MonoBehaviour
+public class InventoryDataController : MonoBehaviour
 {
-    public Entity playerCharacter;
+    // Make sure to pass an instance of this class to the playercharacter somehow. They'll need to call the AddItem method in order to actually interact with this.
     public InventoryGridController gridController;
     public List<GameObject> debugInventoryList = new List<GameObject>();
 
@@ -44,10 +44,6 @@ public class InventoryData : MonoBehaviour
      * 7. Two scripts per item - one ItemData, ItemBehavior
      */
 
-    private void Start()
-    {
-    }
-
     public void AddItem(Vector2Int gridPos, GameObject item)
     {
         items[gridPos] = item;
@@ -61,5 +57,12 @@ public class InventoryData : MonoBehaviour
         var remove = items[gridPos];
         items.Remove(gridPos);
         debugInventoryList.Remove(remove);
+    }
+
+    // TODO - transform this into an event - scriptable object model where we register/send events on collision.
+    // TODO - That way we can pick up a world item and send notifications out to all the things that care.
+    public bool PickUpWorldItem(GameObject item)
+    {
+        return gridController.PickUpWorldItem(item);
     }
 }

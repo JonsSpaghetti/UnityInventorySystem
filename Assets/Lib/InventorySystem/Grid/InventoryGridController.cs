@@ -20,7 +20,7 @@ public class InventoryGridController : MonoBehaviour
     #endregion
 
     public Transform dropParent;
-    public InventoryData inventoryData;
+    public InventoryDataController inventoryData;
 
     private GameObject[,] grid; 
     private GameObject highlightedSlot;
@@ -34,6 +34,7 @@ public class InventoryGridController : MonoBehaviour
      * Need to add character equip zone + controller + data to the inventory screen
      */
 
+    // On start after everything has been set up, it should set itself to inactive to await keypress triggering open.
     private void Start()
     {
         transform.parent.gameObject.SetActive(false);
@@ -41,7 +42,7 @@ public class InventoryGridController : MonoBehaviour
 
     private void Update()
     {
-        UpdateHighlightedSlotColor();
+        UpdateGridColors();
         HandleInput();
     }
 
@@ -50,48 +51,49 @@ public class InventoryGridController : MonoBehaviour
         // When someone lets go of the mouse on a slot & they have an item on their cursor, do something..
         if (Input.GetMouseButtonUp(0))
         {
-            GameObject selectedItem = ItemController.GetSelectedItem();
+            GameObject selectedItem = InventoryItemController.GetSelectedItem();
+            Debug.Log($"highlighted: {highlightedSlot}, selected: {selectedItem}");
             if(highlightedSlot != null && selectedItem != null)
             {
                 if (highlightedSlot.GetComponent<SlotController>().isOccupied)
                 {
                     //If occupied, swap
-                    ItemController.SetSelectedItem(SwapItem(selectedItem));
+                    InventoryItemController.SetSelectedItem(SwapItem(selectedItem));
                 }
                 else
                 {
                     //else, just store item
-                    StoreItem(selectedItem);
-                    ItemController.ResetSelectedItem();
+                    StoreItem(highlightedSlot, selectedItem);
+                    InventoryItemController.ResetSelectedItem();
                 }
             }
             else if(highlightedSlot != null && selectedItem == null && highlightedSlot.GetComponent<SlotController>().isOccupied == true)
             {
                 // If we are on a slot && don't have a selected item && there's an item present
                 UpdateHighlightedSlotColor();
-                ItemController.SetSelectedItem(GetItem(highlightedSlot));
+                InventoryItemController.SetSelectedItem(GetItem(highlightedSlot));
             }
         }
     }
 
-    void StoreItem(GameObject item)
+    void StoreItem(GameObject slot, GameObject item)
     {
 
-        SlotController highlightedSlotController = highlightedSlot.GetComponent<SlotController>();
+        SlotController slotController = slot.GetComponent<SlotController>();
         // Insert stored Item into highlighted slot.
-        GameObject storedItem = highlightedSlotController.InsertItem(item);
+        GameObject storedItem = slotController.InsertItem(item);
 
         // Set parent to drop parent and lock to slot position.
         storedItem.transform.SetParent(dropParent);
         storedItem.GetComponent<RectTransform>().pivot = Vector2.zero;
-        storedItem.transform.position = highlightedSlot.transform.position;
+        storedItem.transform.position = slot.transform.position;
 
         // Make icon solid again.
         CanvasGroup canvasGroup = storedItem.GetComponent<CanvasGroup>();
         canvasGroup.alpha = 1f;
 
         // Add item to inventoryData
-        inventoryData.AddItem(highlightedSlotController.gridPos, storedItem);
+        inventoryData.AddItem(slotController.gridPos, storedItem);
         // TODO - Update Overlay as well.
     }
 
@@ -103,7 +105,7 @@ public class InventoryGridController : MonoBehaviour
     GameObject SwapItem(GameObject item)
     {
         GameObject itemToReturn = GetItem(highlightedSlot);
-        StoreItem(item);
+        StoreItem(highlightedSlot, item);
         UpdateHighlightedSlotColor();
         return itemToReturn;
     }
@@ -124,12 +126,30 @@ public class InventoryGridController : MonoBehaviour
         return itemToReturn;
     }
 
+    // Update grid colors every frame  so we are NEVER wrong
+    void UpdateGridColors()
+    { 
+        foreach(GameObject slot in grid)
+        {
+            SlotController slotController = slot.GetComponent<SlotController>();
+            if (slotController.isOccupied)
+            {
+                slotController.GetComponent<Image>().color = SlotColorHighlights.Blue2;
+            }
+            else if (slotController.isOccupied == false)
+            {
+                slotController.GetComponent<Image>().color = Color.white;
+            }
+        }
+        UpdateHighlightedSlotColor();
+    }
+
     /// <summary>
     /// Update the color of the highlighted slot
     /// </summary>
     void UpdateHighlightedSlotColor()
     {
-        if (!highlightedSlot)
+        if (!highlightedSlot || InventoryItemController.GetSelectedItem() == null)
         {
             return;
         }
@@ -137,12 +157,12 @@ public class InventoryGridController : MonoBehaviour
         if(highlightedSlotController.isOccupied == true)
         {
             // Blue if the highlighted slot is occupied
-            highlightedSlotController.GetComponent<Image>().color = SlotColorHighlights.Blue2;
+            highlightedSlotController.GetComponent<Image>().color = SlotColorHighlights.Yellow;
         }
         else
         {
-            //Grey otherwise.
-            highlightedSlotController.GetComponent<Image>().color = SlotColorHighlights.Gray;
+            //Green otherwise.
+            highlightedSlotController.GetComponent<Image>().color = SlotColorHighlights.Green;
         }
     }
 
@@ -156,5 +176,46 @@ public class InventoryGridController : MonoBehaviour
     public void SetHighlightedSlot(GameObject slot)
     {
         highlightedSlot = slot;
+    }
+
+    //Returns true if pick up was successful, otherwise false.
+    public bool PickUpWorldItem(GameObject item)
+    {
+        highlightedSlot = null;
+        Vector2Int firstOpenSlot = FirstOpenSlot(); 
+        if(firstOpenSlot.x < 0)
+        {
+            return false;
+        }
+        else
+        {
+            // This prevents us from accidentally duping the item upon picking it up.
+            item.GetComponent<CanvasGroup>().blocksRaycasts = false;
+            StoreItem(grid[firstOpenSlot.x, firstOpenSlot.y], item);
+            return true;
+        }
+    }
+
+    /// <summary>
+    /// Will return a Vector2Int of the gridpos that's first open OR will return -1, -1 to indicate that it's not open.
+    /// </summary>
+    /// <returns></returns>
+    Vector2Int FirstOpenSlot()
+    {
+        foreach(GameObject slot in grid)
+        {
+            SlotController slotController = slot.GetComponent<SlotController>();
+            // For first unoccupied
+            if(slotController.isOccupied == false)
+            {
+                // return slot pos
+                return slotController.gridPos;
+            }
+            else
+            {
+                continue;
+            }
+        }
+        return new Vector2Int(-1, -1);
     }
 }

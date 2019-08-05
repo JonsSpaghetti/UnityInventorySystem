@@ -7,11 +7,12 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ItemController : MonoBehaviour, IPointerClickHandler
+public class InventoryItemController : MonoBehaviour, IPointerClickHandler
     {
     public Sprite myIcon;
     public string myName;
     public ItemData myItem;
+    public GameObject worldItemPrefab;
 
     private static GameObject selectedItem;
     public static bool isDragging = false;
@@ -83,5 +84,5 @@ public class ItemController : MonoBehaviour, IPointerClickHandler
         isDragging = false;
     }
 
-
+    // TODO - drop items on ground. (Should be EZ);
 }
