@@ -26,6 +26,7 @@ public class InputManager : MonoBehaviour
         Command keyS;
         Command keyD;
         Command mouse0Down;
+        Command keyTab;
         Command doNothing;
         Dictionary<KeyCode, Command> keyMap = new Dictionary<KeyCode, Command>();
         public InputHandler(Entity entity)
@@ -34,6 +35,7 @@ public class InputManager : MonoBehaviour
             keyA = new MoveLeft(entity);
             keyS = new MoveDown(entity);
             keyD = new MoveRight(entity);
+            keyTab = new ToggleInventory(entity);
             mouse0Down = new MoveToMouse(entity);
             doNothing = new DoNothing(entity);
 
@@ -71,6 +73,10 @@ public class InputManager : MonoBehaviour
             else if (Input.GetMouseButton(0))
             {
                 return mouse0Down;
+            }
+            else if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                return keyTab;
             }
             else
             {

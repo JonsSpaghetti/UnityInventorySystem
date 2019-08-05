@@ -25,13 +25,20 @@ public class InventoryGridController : MonoBehaviour
     private GameObject[,] grid; 
     private GameObject highlightedSlot;
     /* TODO
-     * Need to add list or dict representation of items by class or something like that in InventoryData so that we can look things up easily.  Doesn't technically need to be separate but can be.
      * Need to add ability to push changes to grid to InventoryData list and vice versa (pick up item in overworld and it just goes into first open inventory slot).
      * methods needed: 
      * FindFirstOpenSlot
      * SyncWithInventory - Maybe this should be event driven?  Item comes in, send event.  Could use scriptable object event manager.
+     * Need world prefabs for items.
+     * Need to add drop zone and controller to the inventory screen
+     * Need to add character equip zone + controller + data to the inventory screen
      */
-    
+
+    private void Start()
+    {
+        transform.parent.gameObject.SetActive(false);
+    }
+
     private void Update()
     {
         UpdateHighlightedSlotColor();
