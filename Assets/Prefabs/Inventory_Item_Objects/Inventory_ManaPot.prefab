@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2657840673735076543}
   - component: {fileID: 5681509279048019900}
   m_Layer: 5
-  m_Name: ManaPot
+  m_Name: Inventory_ManaPot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -103,4 +103,5 @@ MonoBehaviour:
   myIcon: {fileID: 0}
   myName: 
   myItem: {fileID: 11400000, guid: c3a81efbc437b4946abc213e9242f4f4, type: 2}
-  slotIndex: 0
+  worldItemPrefab: {fileID: 4690738270176696363, guid: 9c332bac8a108b14eb875d0dc99a9911,
+    type: 3}

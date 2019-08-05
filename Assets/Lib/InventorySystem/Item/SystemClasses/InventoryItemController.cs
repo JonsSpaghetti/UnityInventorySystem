@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class InventoryItemController : MonoBehaviour, IPointerClickHandler
-    {
+{
     public Sprite myIcon;
     public string myName;
     public ItemData myItem;
@@ -19,6 +19,8 @@ public class InventoryItemController : MonoBehaviour, IPointerClickHandler
 
     private float slotSize;
     Image myImage;
+
+
     Vector2Int gridPos;
 
     private void Awake()
@@ -84,5 +86,16 @@ public class InventoryItemController : MonoBehaviour, IPointerClickHandler
         isDragging = false;
     }
 
-    // TODO - drop items on ground. (Should be EZ);
+    public void SpawnWorldItem(Vector3 location)
+    {
+        Instantiate(worldItemPrefab, location, new Quaternion());
+    }
+
+    public void DropItem(GameObject itemOwner)
+    {
+        // TODO - do this off a separate transform so that item owner drops in a specific location instead of right on top of themselves.
+        SpawnWorldItem(itemOwner.transform.position);
+        ResetSelectedItem();
+        Destroy(gameObject);
+    }
 }

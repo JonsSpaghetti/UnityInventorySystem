@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 // This class controlls the grid.
-public class InventoryGridController : MonoBehaviour
+public class InventoryGridController : MonoBehaviour, IPointerExitHandler
 {
     #region Singleton  Pattern
     static InventoryGridController singleton;
@@ -217,5 +218,10 @@ public class InventoryGridController : MonoBehaviour
             }
         }
         return new Vector2Int(-1, -1);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        highlightedSlot = null;
     }
 }
