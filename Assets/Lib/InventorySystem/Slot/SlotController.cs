@@ -14,7 +14,7 @@ public class SlotController : MonoBehaviour, IPointerEnterHandler, IPointerClick
     //public ItemClass storedItemClass;
     public bool isOccupied;
 
-    private Color initialColor;
+    protected Color initialColor;
 
     protected virtual void Awake()
     {

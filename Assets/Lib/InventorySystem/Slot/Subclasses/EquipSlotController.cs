@@ -80,5 +80,16 @@ class EquipSlotController : SlotController
         {
             image.color = SlotColorHighlights.Red;
         }
+        else if (!selectedItem)
+        {
+            if (isOccupied)
+            {
+                image.color = SlotColorHighlights.Yellow;
+            }
+            else
+            {
+                image.color = initialColor;
+            }
+        }
     }
 }
