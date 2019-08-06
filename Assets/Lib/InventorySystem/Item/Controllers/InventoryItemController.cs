@@ -11,7 +11,7 @@ public class InventoryItemController : MonoBehaviour, IPointerClickHandler
 {
     public Sprite myIcon;
     public string myName;
-    public ItemData myItem;
+    public ItemData myItemData;
     public GameObject worldItemPrefab;
 
     private static GameObject selectedItem;
@@ -25,8 +25,8 @@ public class InventoryItemController : MonoBehaviour, IPointerClickHandler
 
     private void Awake()
     {
-        myIcon = myItem.myInventoryIcon;
-        myName = myItem.myName;
+        myIcon = myItemData.myInventoryIcon;
+        myName = myItemData.myName;
         myImage = GetComponent<Image>();
     }
 
@@ -34,7 +34,7 @@ public class InventoryItemController : MonoBehaviour, IPointerClickHandler
     {
         slotSize = InventoryGridCreator.Singleton.slotSize;
         myImage.sprite = myIcon;
-        SetUpItemObject(myItem);
+        SetUpItemObject(myItemData);
         //TODO - implement myItem.DisplayTooltip();
 
     }

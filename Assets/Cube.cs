@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class Cube : Entity
 {
-    public InventoryDataController myInventoryData;
+    public GridDataController myInventoryData;
     private void Awake()
     {
         speed = 5f;

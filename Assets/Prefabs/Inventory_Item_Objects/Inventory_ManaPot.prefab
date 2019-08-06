@@ -102,6 +102,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myIcon: {fileID: 0}
   myName: 
-  myItem: {fileID: 11400000, guid: c3a81efbc437b4946abc213e9242f4f4, type: 2}
+  myItemData: {fileID: 11400000, guid: 056058d4110303e4eac90c389c3617ca, type: 2}
   worldItemPrefab: {fileID: 4690738270176696363, guid: 9c332bac8a108b14eb875d0dc99a9911,
     type: 3}

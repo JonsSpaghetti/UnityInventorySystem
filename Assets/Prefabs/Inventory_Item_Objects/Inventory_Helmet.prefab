@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2657840673735076543}
   - component: {fileID: 5681509279048019900}
   m_Layer: 5
-  m_Name: Inventory_HealthPot
+  m_Name: Inventory_Helmet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -102,6 +102,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myIcon: {fileID: 0}
   myName: 
-  myItemData: {fileID: 11400000, guid: 0fe94e95abf9bf04a9aaa5c353a110b4, type: 2}
-  worldItemPrefab: {fileID: 4690738270176696363, guid: 4f30b53e2efeb6e48a799411472459b5,
+  myItemData: {fileID: 11400000, guid: fbb1e826a6fb3144080c6dab102407fe, type: 2}
+  worldItemPrefab: {fileID: 4690738270176696363, guid: b31b8c0c1c5d8cb4781d7837e43c090f,
     type: 3}

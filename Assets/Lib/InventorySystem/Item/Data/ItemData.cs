@@ -6,23 +6,6 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public enum Rarity
-{
-    Common,
-    Magic,
-    Rare,
-    Legendary,
-    Unique
-}
-
-public enum ItemType
-{
-    Consumable,
-    Weapon,
-    Armor,
-    Accessory,
-    Quest
-}
 public abstract class ItemData : ScriptableObject
 {
     public string myName;

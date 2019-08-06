@@ -54,7 +54,7 @@ class InventoryGridCreator : MonoBehaviour
                 rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, slotSize);
                 rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, slotSize);
                 obj.GetComponent<RectTransform>().localScale = Vector3.one;
-                obj.GetComponent<SlotController>().gridPos = new Vector2Int(x, y);
+                obj.GetComponent<GridSlotController>().gridPos = new Vector2Int(x, y);
                 slotGrid[x, y] = obj;
             }
         }

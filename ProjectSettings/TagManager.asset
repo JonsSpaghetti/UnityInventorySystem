@@ -6,6 +6,7 @@ TagManager:
   tags:
   - DragParent
   - InventoryUI
+  - DropParent
   layers:
   - Default
   - TransparentFX
